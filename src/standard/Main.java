@@ -13,8 +13,9 @@ public class Main {
 
 	public static void main(String args[])
 	{
-		String[] names;
-		int[][] edges;
+		String[] names = null;
+		int[][] edges = null;
+		Graph graph = null;
 		try {
 			BufferedReader read = new BufferedReader(new FileReader("src\\standard\\Input.txt"));
 			String vertexNames = read.readLine();
@@ -44,6 +45,8 @@ public class Main {
 				String thisLine = read.readLine();
 				for(int j = 0; j < count; j++)
 				{
+					if(thisLine == null)
+						break;
 					int end = thisLine.indexOf(',');
 					String intString;
 					if(end != -1)
@@ -59,10 +62,16 @@ public class Main {
 			}
 			
 			read.close();
+			
+			graph = new Graph(names,edges);
 		}
 		catch(Exception e)
 		{
-			System.err.print(e);
+			System.err.println(e);
+			e.printStackTrace(System.err);
 		}
+		PrimJarnik PJgraph = new PrimJarnik(graph);
+		int duck = 0;
+		
 	}
 }
