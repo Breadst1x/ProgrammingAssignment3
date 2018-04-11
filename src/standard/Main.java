@@ -1,7 +1,8 @@
 /*
  * Authors: Keeton Hersey, AJ Cordero
  * Date: 4/8/18
- * Overview: Implementation and manipulaton of graphs
+ * Overview: The driving main method for implementing the importing
+ *  of the original graphs and implementation of each algorithm
  */
 
 
@@ -74,7 +75,6 @@ public class Main {
 		System.out.println(new PrimJarnik(graph));
 		System.out.println(new Kruskal(graph));
 		System.out.println(new FloydWarshall(graph));
-		int duck = 0;
 		
 	}
 }

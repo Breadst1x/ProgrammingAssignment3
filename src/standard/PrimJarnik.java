@@ -1,3 +1,9 @@
+/*
+ * Authors: Keeton Hersey, AJ Cordero
+ * Date: 4/8/18
+ * Overview: The implementation of the Prim-Jarnik algorithm, toString() method produced output as desired
+ */
+
 package standard;
 
 public class PrimJarnik extends Graph{

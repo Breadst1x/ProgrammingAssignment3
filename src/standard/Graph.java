@@ -1,3 +1,9 @@
+/*
+ * Authors: Keeton Hersey, AJ Cordero
+ * Date: 4/8/18
+ * Overview: The base Graph object extended by each algorithm type to give a base type
+ */
+
 package standard;
 
 public class Graph {
