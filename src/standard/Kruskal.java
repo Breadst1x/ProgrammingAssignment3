@@ -1,15 +1,15 @@
 package standard;
 
-public class PrimJarnik extends Graph{
+public class Kruskal extends Graph{
 	//Only For Undirected(Symmetrical Edged) graphs
-	public PrimJarnik(Graph graph)
+	public Kruskal(Graph graph)
 	{
 		super(graph.names, graph.edges);
-		PJinit();
+		Kinit();
 	}
 	public String toString()
 	{
-		String out = "PrimJarnik:\n";
+		String out = "Kruskal:\n";
 		for(int i = 0; i < edges.length; i++)
 			for(int j = i; j < edges[i].length; j++)
 				if(edges[i][j] < Integer.MAX_VALUE/10)
@@ -17,21 +17,20 @@ public class PrimJarnik extends Graph{
 		out+="\n";
 		return out;
 	}
-	static class PJNode
+	static class KNode
 	{
-		public boolean club;
-		public int index;
-		public PJNode(int index) 
+		public int index, club;
+		public KNode(int index, int club) 
 		{
-			club = false;
+			this.club = club;
 			this.index = index;
 		}
 	}
-	static class PJEdge{
-		public PJNode start, end;
+	static class KEdge{
+		public KNode start, end;
 		public int value;
 		public boolean enabled;
-		public PJEdge(PJNode start, PJNode end, int value, boolean enabled)
+		public KEdge(KNode start, KNode end, int value, boolean enabled)
 		{
 			this.start = start;
 			this.end = end;
@@ -39,53 +38,44 @@ public class PrimJarnik extends Graph{
 			this.enabled = enabled;
 		}
 	}
-	private void PJinit()
+	private void Kinit()
 	{
-		PJNode[] nodeArray = new PJNode[this.names.length];
+		KNode[] nodeArray = new KNode[this.names.length];
 		for(int i = 0; i < nodeArray.length; i++)
-			nodeArray[i] = new PJNode(i);
+			nodeArray[i] = new KNode(i, Integer.MAX_VALUE-i);
 		int count = 0;
 		for(int i = 0; i < this.edges.length; i++)
 			for(int j = 0; j < this.edges[i].length; j++)
 				if(edges[i][j] != Integer.MAX_VALUE)
 					count++;
-		PJEdge[] edgeArray = new PJEdge[count];
+		KEdge[] edgeArray = new KEdge[count];
 		count = 0;
 		for(int i = 0; i < this.edges.length; i++)
 			for(int j = 0; j < this.edges[i].length; j++)
 				if(edges[i][j] != Integer.MAX_VALUE)
 				{
-					edgeArray[count] = new PJEdge(nodeArray[i],nodeArray[j],edges[i][j],false);
+					edgeArray[count] = new KEdge(nodeArray[i],nodeArray[j],edges[i][j],false);
 					count++;
 				}
-		nodeArray[0].club = true;
+		nodeArray[0].club = 0;
 		boolean goOn = false;
-		for(PJNode e : nodeArray)
-			if(!e.club)
+		for(KNode e : nodeArray)
+			if(e.club != 0)
 				goOn = true;
 		while(goOn)
 		{
-			PJEdge[] edgesFromClub = new PJEdge[edgeArray.length];
-			for(int j = 0; j < edgeArray.length; j++)
-				if(edgeArray[j].start.club && !edgeArray[j].end.club)
-					edgesFromClub[j] = edgeArray[j];
-			boolean getOut = true;
-			for(PJEdge e: edgesFromClub)
-				if(e != null)
-					getOut = false;
-			if(getOut)
-				break;
-			PJEdge shortest = new PJEdge(null,null,Integer.MAX_VALUE,false);
-			for(PJEdge e: edgesFromClub)
-			{
-				if(e != null && e.value < shortest.value)
+			KEdge shortest = new KEdge(null,null,Integer.MAX_VALUE,false);
+			for(KEdge e: edgeArray)
+				if(e != null && !(e.start.club == e.end.club) && e.value < shortest.value)
 					shortest = e;
-			}
 			shortest.enabled = true;
-			shortest.end.club = true;
+			int shortClub = Integer.min(shortest.start.club, shortest.end.club);
+			for(KNode e : nodeArray)
+				if(e.club == shortest.start.club || e.club == shortest.end.club)
+					e.club = shortClub;
 			goOn = false;
-			for(PJNode e : nodeArray)
-				if(!e.club)
+			for(KNode e : nodeArray)
+				if(e.club != 0)
 					goOn = true;
 		}
 		for(int i = 0; i < this.edges.length; i++)
@@ -103,6 +93,7 @@ public class PrimJarnik extends Graph{
 				this.edges[edgeArray[i].end.index][edgeArray[i].start.index] = edgeArray[i].value;
 			}
 		}
+
 	}
 }
 

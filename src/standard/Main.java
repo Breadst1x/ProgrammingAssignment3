@@ -70,7 +70,10 @@ public class Main {
 			System.err.println(e);
 			e.printStackTrace(System.err);
 		}
-		PrimJarnik PJgraph = new PrimJarnik(graph);
+		System.out.println("Graph\n"+graph);
+		System.out.println(new PrimJarnik(graph));
+		System.out.println(new Kruskal(graph));
+		System.out.println(new FloydWarshall(graph));
 		int duck = 0;
 		
 	}
